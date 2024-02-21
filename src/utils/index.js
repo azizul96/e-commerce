@@ -74,7 +74,7 @@ export const registrationFormControls = [
       },
       {
         id: "customer",
-        label: "customer",
+        label: "Customer",
       },
     ],
   },
@@ -239,7 +239,4 @@ export const addNewAddressFormControls = [
   },
 ];
 
-export const styles = {
-  button : "mt-1.5 inline-block bg-[#C70039] px-5 py-2 text-xs font-medium uppercase tracking-wide text-white rounded-sm",
-};
 

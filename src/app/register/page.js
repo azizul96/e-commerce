@@ -1,8 +1,12 @@
 "use client"
 
+import InputComponent from "@/components/FormElements/InputComponent/InputComponent";
+import SelectComponent from "@/components/FormElements/SelectComponent/SelectComponent";
+import { registrationFormControls } from "@/utils";
 
 
-const isRegistered = true;
+
+const isRegistered = false;
 
 const Register = () => {
   return (
@@ -21,7 +25,26 @@ const Register = () => {
                 <button className="inline-flex w-full items-center justify-center bg-[#C70039] px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide">
                   Login
                 </button> 
-                : null
+                : <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8 ">
+                  {
+                    registrationFormControls.map(controlItem =>
+                      controlItem.componentType === 'input' ? 
+                      (<InputComponent 
+                      type={controlItem.type}
+                      placeholder={controlItem.placeholder}
+                      label={controlItem.label}
+                      />) 
+                      : controlItem.componentType === 'select' ? 
+                      (<SelectComponent 
+                      option={controlItem.options}
+                      label={controlItem.label}
+                      />)
+                      : null)
+                  }
+                  <button className="inline-flex w-full items-center justify-center bg-[#C70039] px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide">
+                    Register
+                  </button>
+                </div>
               }
             </div>
           </div>
