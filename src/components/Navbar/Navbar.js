@@ -1,26 +1,30 @@
 "use client"
-
 import { GlobalContext } from "@/context";
 import { adminNavOptions, navOptions } from "@/utils";
 import { Fragment, useContext } from "react";
 import CommonModal from "../CommonModal/CommonModal";
+import Cookies from "js-cookie";
+import { usePathname, useRouter } from "next/navigation";
 
-const isAdminView = false;
-const isAuthUser = true;
-const user = {
-    role: 'admin'
-}
 
-const NavItem = ({isModalView = false}) => {
+
+
+
+
+const NavItem = ({isModalView = false, isAdminView, router}) => {
 
     return (
         <div className={`items-center justify-between w-full md:flex md:w-auto ${isModalView ? "" : "hidden"}`} id="nav-items">
             <ul className={`flex flex-col p-4 md:p-0 mt-4 font-medium  rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-white ${isAdminView ? "border-none" : "border border-gray-100" }`}>
             {
-                isAdminView ? adminNavOptions.map(item => <li key={item.id} className="cursor-pointer block py-2 pl-3  pr-4 text-gray-900 rounded md:p-0 "> 
+                isAdminView ? adminNavOptions.map(item => <li key={item.id} className="cursor-pointer block py-2 pl-3  pr-4 text-gray-900 rounded md:p-0 "
+                onClick={()=>router.push(item.path)}
+                > 
                 {item.label}
                 </li>) 
-                : navOptions.map(item => <li key={item.id} className="cursor-pointer block py-2 pl-3  pr-4 text-gray-900 rounded md:p-0 "> 
+                : navOptions.map(item => <li key={item.id} className="cursor-pointer block py-2 pl-3  pr-4 text-gray-900 rounded md:p-0 "
+                onClick={()=>router.push(item.path)}
+                > 
                 {item.label}
                 </li>)
             }
@@ -30,12 +34,27 @@ const NavItem = ({isModalView = false}) => {
 }
 const Navbar = () => {
 
-    const {showNavModal, setShowNavModal} = useContext(GlobalContext)
+    const {showNavModal, setShowNavModal} = useContext(GlobalContext);
+    const {user, isAuthUser, setIsAuthUser, setUser} = useContext(GlobalContext);
+    const pathName = usePathname()
+    const router = useRouter();
+
+    console.log( user , isAuthUser );
+
+    const handleLogout = ()=>{
+        setIsAuthUser(false)
+        setUser(null)
+        Cookies.remove('token')
+        localStorage.clear()
+        router.push('/')
+    }
+
+    const isAdminView = pathName.includes('admin-view')
     return (
         <>
         <nav className="bg-white w-full z-20 top-0 left-0 border-b border-gray-200">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                <div className="flex items-center cursor-pointer ">
+                <div onClick={()=>router.push('/')} className="flex items-center cursor-pointer ">
                     <span className="self-center text-2xl font-semibold whitespace-nowrap"><span className="text-[#C70039]">E-</span>Shop</span>
                 </div>
                 <div className="flex md:order-2 gap-2">
@@ -49,11 +68,29 @@ const Navbar = () => {
                     }
                     {
                         user?.role === 'admin' ?
-                            isAdminView ? <button className={"mt-1.5 inline-block bg-[#C70039] px-5 py-2 text-xs font-medium uppercase tracking-wide text-white rounded-sm"}>Client View</button> : <button className={"mt-1.5 inline-block bg-[#C70039] px-5 py-2 text-xs font-medium uppercase tracking-wide text-white rounded-sm"}>Admin View</button>
+                            isAdminView ? <button className={"mt-1.5 inline-block bg-[#C70039] px-5 py-2 text-xs font-medium uppercase tracking-wide text-white rounded-sm"}
+                            onClick={()=>router.push('/')}
+                            >Client View</button> 
+                            : <button className={"mt-1.5 inline-block bg-[#C70039] px-5 py-2 text-xs font-medium uppercase tracking-wide text-white rounded-sm"}
+                            onClick={()=>router.push('/admin-view')}
+                            >
+                                Admin View
+                            </button>
                             : null
                     }
                     {
-                        isAuthUser ? <button className={"mt-1.5 inline-block bg-[#C70039] px-5 py-2 text-xs font-medium uppercase tracking-wide text-white rounded-sm"}>Logout</button> : <button className={"mt-1.5 inline-block bg-[#C70039] px-5 py-2 text-xs font-medium uppercase tracking-wide text-white rounded-sm"}>Login</button>
+                        isAuthUser ? <button 
+                        className={"mt-1.5 inline-block bg-[#C70039] px-5 py-2 text-xs font-medium uppercase tracking-wide text-white rounded-sm"} 
+                        onClick={handleLogout}
+                        >
+                            Logout
+                        </button> 
+                        : 
+                        <button className={"mt-1.5 inline-block bg-[#C70039] px-5 py-2 text-xs font-medium uppercase tracking-wide text-white rounded-sm"}
+                        onClick={()=> router.push('/login')}
+                        >
+                            Login
+                        </button>
                     }
                     <button
                     data-collapse-toggle="navbar-sticky"
@@ -79,12 +116,12 @@ const Navbar = () => {
                     </svg>
                     </button>
                 </div>
-                <NavItem />
+                <NavItem isAdminView={isAdminView} router={router}/>
             </div>
         </nav>
         <CommonModal 
         showModalTitle={false}
-        mainContent={<NavItem isModalView={true} />}
+        mainContent={<NavItem isModalView={true}  isAdminView={isAdminView} router={router}/>}
         show={showNavModal} 
         setShow={setShowNavModal}
         />

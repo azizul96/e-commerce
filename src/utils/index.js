@@ -30,7 +30,7 @@ export const adminNavOptions = [
   {
     id: "adminListing",
     label: "Manage All Products",
-    path: "/admin-view/all-products",
+    path: "/admin-view/all-product",
   },
   {
     id: "adminNewProduct",
@@ -97,7 +97,7 @@ export const loginFormControls = [
   },
 ];
 
-export const adminAddProductformControls = [
+export const adminAddProductFormControls = [
   {
     id: "name",
     type: "text",

@@ -1,11 +1,67 @@
 "use client"
 
 import InputComponent from "@/components/FormElements/InputComponent/InputComponent";
-import SelectComponent from "@/components/FormElements/SelectComponent/SelectComponent";
+import { GlobalContext } from "@/context";
+import { login } from "@/services/login";
 import { loginFormControls } from "@/utils";
-import Link from "next/link";
+import Cookies from "js-cookie";
+import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import ComponentLevelLoader from "@/components/Loader/ComponentLevel";
+import { toast } from "react-toastify";
+
+const initialFormData = {
+  email: '',
+  password: '',
+}
 
 const Login = () => {
+
+  const [formData, setFormData] =useState(initialFormData)
+  const {isAuthUser, setIsAuthUser, user, setUser, componentLevelLoader, setComponentLevelLoader} = useContext(GlobalContext)
+
+  const router = useRouter();
+  console.log(formData);
+
+  function isFormValid(){
+
+    return formData &&  formData.email && formData.email.trim() !== ''
+    && formData.password && formData.password.trim() !== '' ? true : false
+  }
+
+  const handleLogin = async()=>{
+    setComponentLevelLoader({loading: true, id: ''})
+    const res = await login(formData)
+    console.log(res);
+
+    if(res.success){
+      toast.success(res.message, {
+        position: "top-right",
+      });
+      setIsAuthUser(true);
+      setUser(res?.finalData?.user);
+      setFormData(initialFormData);
+      Cookies.set('token', res?.finalData?.token);
+      localStorage.setItem("user", JSON.stringify(res?.finalData?.user))
+      setComponentLevelLoader({loading: false, id: ''})
+    }
+    else{
+      toast.error(res.message, {
+        position: "top-right",
+      });
+      setIsAuthUser(false)
+      setComponentLevelLoader({loading: false, id: ''})
+    }
+  }
+  
+
+  useEffect(()=>{
+    if(isAuthUser){
+      router.push('/')
+    }
+  },[isAuthUser])
+
+
   return (
     <div className="bg-white relative">
       <div className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-8 mr-auto xl:px-5 lg:flex-row ">
@@ -23,15 +79,38 @@ const Login = () => {
                       type={controlItem.type}
                       placeholder={controlItem.placeholder}
                       label={controlItem.label}
+                      onChange={(event)=> {
+                        setFormData({
+                          ...formData,
+                          [controlItem.id] : event.target.value
+                        })
+                      }}
+                      value={formData[controlItem.id]} 
                       />)
                       : null)
                   }
-                  <button className="inline-flex w-full items-center justify-center bg-[#C70039] px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide">
-                    Login
+                  <button className="inline-flex w-full items-center justify-center bg-[#C70039] px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide disabled:opacity-50" 
+                  disabled={!isFormValid()}
+                  onClick={handleLogin}
+                  >
+                    {
+                      componentLevelLoader && componentLevelLoader.loading ? <ComponentLevelLoader
+                      text={'Logging In'}
+                      color={'#ffffff'}
+                      loading={componentLevelLoader && componentLevelLoader.loading}
+                      /> : "Login"
+                    }
                   </button>
                   <div className="flex flex-col gap-2 text-center">
                     <p>OR</p>
-                    <Link href="/register" className="text-[#C70039] font-bold hover:underline">Register</Link>
+                    <button
+                    className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg 
+                     text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide
+                     "
+                    onClick={() => router.push("/register")}
+                  >
+                    Register
+                  </button>
                   </div>
                 </div>
 
