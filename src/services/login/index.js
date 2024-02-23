@@ -13,7 +13,7 @@ export const login = async(formData) =>{
     })
 
 
-    const data = response.json()
+    const data = await response.json()
 
     return data
 

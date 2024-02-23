@@ -1,10 +1,9 @@
+import CommonListing from "@/components/CommonListing/CommonListing";
 
 
 const AdminAllProduct = () => {
   return (
-    <div>
-      AllProduct
-    </div>
+    <CommonListing />
   );
 };
 

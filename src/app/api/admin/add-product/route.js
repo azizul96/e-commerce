@@ -1,3 +1,4 @@
+import connectToDB from "@/database";
 import AuthUser from "@/middleware/AuthUser";
 import Product from "@/models/product";
 import Joi from "joi";
