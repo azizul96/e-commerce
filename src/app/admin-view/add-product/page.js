@@ -5,11 +5,11 @@ import SelectComponent from "@/components/FormElements/SelectComponent/SelectCom
 import TileComponent from "@/components/FormElements/TileComponent/TileComponent";
 import ComponentLevelLoader from "@/components/Loader/ComponentLevel";
 import { GlobalContext } from "@/context";
-import { addNewProduct } from "@/services/product";
+import { addNewProduct, updateAProduct } from "@/services/product";
 import { AvailableSizes, adminAddProductFormControls, firebaseConfig, firebaseStorageUrl } from "@/utils";
 import {initializeApp} from 'firebase/app'
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
@@ -63,9 +63,14 @@ const initialFormData = {
 const AdminAddProduct = () => {
 
   const [formData, setFormData] = useState(initialFormData)
-  const {componentLevelLoader, setComponentLevelLoader} = useContext(GlobalContext)
+  const {componentLevelLoader, setComponentLevelLoader, currentUpdatedProduct, setCurrentUpdatedProduct} = useContext(GlobalContext)
+
+  
   const router = useRouter();
 
+  useEffect(()=>{
+    if(currentUpdatedProduct !== null) setFormData(currentUpdatedProduct)
+  },[])
   const handleImage = async(event)=>{
     console.log(event.target.files);
     const extractImageUrl = await helperForUPloadingImageToFirebase(event.target.files[0])
@@ -99,7 +104,8 @@ const AdminAddProduct = () => {
 
   const handleAddProduct = async()=>{
     setComponentLevelLoader({ loading: true, id: "" });
-    const res = await addNewProduct(formData)
+    const res = currentUpdatedProduct !== null ? 
+    await updateAProduct(formData) : await addNewProduct(formData)
     console.log(res);
 
     if (res.success) {
@@ -109,7 +115,7 @@ const AdminAddProduct = () => {
       });
 
       setFormData(initialFormData);
-      // setCurrentUpdatedProduct(null)
+      setCurrentUpdatedProduct(null)
       setTimeout(() => {
         router.push("/admin-view/all-product");
       }, 1000);
@@ -181,10 +187,11 @@ const AdminAddProduct = () => {
             {
               componentLevelLoader && componentLevelLoader.loading ?
               <ComponentLevelLoader 
-              text={'Adding Product'}
+              text={currentUpdatedProduct !== null ? "Updating Product" : "Adding Product"}
               color={'#ffffff'}
               loading={componentLevelLoader && componentLevelLoader.loading}
-              /> : "Add Product"
+              /> : currentUpdatedProduct !== null ? ( "Update Product" ) 
+              : (  "Add Product" )
             }
           </button>
         </div>
