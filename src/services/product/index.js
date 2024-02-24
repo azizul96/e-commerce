@@ -3,6 +3,8 @@ import Cookies from "js-cookie";
 
 
 
+
+
 export const addNewProduct = async (formData) => {
   try {
     const response = await fetch("/api/admin/add-product", {
@@ -91,9 +93,28 @@ export const productByCategory = async (id) => {
     const data = await res.json();
 
     return data;
-    
+
   } 
   catch (e) {
+    console.log(e);
+  }
+};
+
+
+export const productById = async (id) => {
+  try {
+    const res = await fetch(
+      `http://localhost:3000/api/admin/product-by-id?id=${id}`,
+      {
+        method: "GET",
+        cache: "no-store",
+      }
+    );
+
+    const data = await res.json();
+
+    return data;
+  } catch (e) {
     console.log(e);
   }
 };

@@ -5,6 +5,7 @@ import { Fragment, useContext, useEffect } from "react";
 import CommonModal from "../CommonModal/CommonModal";
 import Cookies from "js-cookie";
 import { usePathname, useRouter } from "next/navigation";
+import CartModal from "../CartModal/CartModal";
 
 
 
@@ -34,9 +35,8 @@ const NavItem = ({isModalView = false, isAdminView, router}) => {
 }
 const Navbar = () => {
 
-    const {showNavModal, setShowNavModal} = useContext(GlobalContext);
-    const {user, isAuthUser, setIsAuthUser, setUser, currentUpdatedProduct,
-        setCurrentUpdatedProduct,} = useContext(GlobalContext);
+    const {user, isAuthUser, setIsAuthUser, setUser, currentUpdatedProduct, setCurrentUpdatedProduct, showNavModal, setShowNavModal, showCartModal, setShowCartModal} = useContext(GlobalContext);
+
     const pathName = usePathname()
     const router = useRouter();
 
@@ -71,7 +71,9 @@ const Navbar = () => {
                         !isAdminView && isAuthUser ? (
                             <Fragment>
                                 <button className={"mt-1.5 inline-block bg-[#C70039] px-5 py-2 text-xs font-medium uppercase tracking-wide text-white rounded-sm"}>Account</button>
-                                <button className={"mt-1.5 inline-block bg-[#C70039] px-5 py-2 text-xs font-medium uppercase tracking-wide text-white rounded-sm"}>Cart</button>
+                                <button className={"mt-1.5 inline-block bg-[#C70039] px-5 py-2 text-xs font-medium uppercase tracking-wide text-white rounded-sm"}
+                                onClick={()=> setShowCartModal(true)}
+                                >Cart</button>
                             </Fragment>
                         ) : null
                     }
@@ -134,6 +136,7 @@ const Navbar = () => {
         show={showNavModal} 
         setShow={setShowNavModal}
         />
+        {showCartModal && <CartModal />}
         </>
     );
 };

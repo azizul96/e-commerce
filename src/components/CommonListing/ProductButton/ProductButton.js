@@ -1,6 +1,7 @@
 "use client"
 import ComponentLevelLoader from "@/components/Loader/ComponentLevel";
 import { GlobalContext } from "@/context";
+import { addToCart } from "@/services/cart";
 import { deleteAProduct } from "@/services/product";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
@@ -11,7 +12,8 @@ import { toast } from "react-toastify";
 
 
 const ProductButton = ({item}) => {
-  const { setCurrentUpdatedProduct, componentLevelLoader, setComponentLevelLoader} = useContext(GlobalContext)
+  const { user, setCurrentUpdatedProduct, componentLevelLoader, setComponentLevelLoader, showCartModal, setShowCartModal} = useContext(GlobalContext)
+  
   const pathName = usePathname()
   const router = useRouter()
 
@@ -34,6 +36,26 @@ const ProductButton = ({item}) => {
       });
       setComponentLevelLoader({ loading: false, id: "" });
     }
+  }
+
+  const handleAddToCart = async(getItem)=>{
+    setComponentLevelLoader({ loading: true, id: getItem._id });
+    const res = await addToCart({ productID: getItem._id, userID: user._id });
+
+    if (res.success) {
+      toast.success(res.message, {
+        position: "top-right",
+      });
+      setComponentLevelLoader({ loading: false, id: "" });
+      setShowCartModal(true);
+    } else {
+      toast.error(res.message, {
+        position: "top-right",
+      });
+      setComponentLevelLoader({ loading: false, id: "" });
+      setShowCartModal(true)
+    }
+
   }
 
   return (isAdminView ? 
@@ -63,9 +85,20 @@ const ProductButton = ({item}) => {
     :
     <>
       <button
-      className="mt-1.5 flex w-full justify-center bg-[#C70039] px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+      onClick={() => handleAddToCart(item)}
+      className="mt-1.5 flex w-full justify-center bg-[#ba7d38] px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
       >
-        Add To Cart
+        {componentLevelLoader &&
+        componentLevelLoader.loading &&
+        componentLevelLoader.id === item._id ? (
+          <ComponentLevelLoader
+            text={"Adding to cart"}
+            color={"#ffffff"}
+            loading={componentLevelLoader && componentLevelLoader.loading}
+          />
+        ) : (
+          "Add To Cart"
+        )}
       </button>
     </>
   )
