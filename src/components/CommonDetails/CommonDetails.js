@@ -3,10 +3,11 @@ import { GlobalContext } from "@/context";
 import { addToCart } from "@/services/cart";
 import { useContext } from "react";
 import { toast } from "react-toastify";
+import ComponentLevelLoader from "../Loader/ComponentLevel";
 
 
 const CommonDetails = ({ item }) => {
-  const { componentLevelLoader, setComponentLevelLoader,  } = useContext(GlobalContext);
+  const { user, componentLevelLoader, setComponentLevelLoader,  } = useContext(GlobalContext);
 
   const handleAddToCart = async(getItem)=>{
     setComponentLevelLoader({ loading: true, id: "" });

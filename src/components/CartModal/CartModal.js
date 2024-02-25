@@ -115,7 +115,7 @@ const CartModal = () => {
                   <div className="flex flex-1 items-end justify-between text-sm">
                     <button
                       type="button"
-                      className="font-semibold text-rose-500 sm:order-2"
+                      className="font-semibold text-yellow-700 sm:order-2"
                       onClick={() => handleDeleteCartItem(cartItem._id)}
                     >
                       {componentLevelLoader &&
