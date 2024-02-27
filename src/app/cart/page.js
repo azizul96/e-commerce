@@ -23,7 +23,7 @@ const Cart = () => {
     setPageLevelLoader(true);
     const res = await getAllCartItems(user?._id);
 
-    if (res.success) {
+    if(res.success) {
       const updatedData =
         res.data && res.data.length
           ? res.data.map((item) => ({

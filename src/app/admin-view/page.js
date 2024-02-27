@@ -2,7 +2,7 @@
 
 const AdminView = () => {
   return (
-    <div>
+    <div className="flex items-center justify-center my-10">
       AdminView
     </div>
   );

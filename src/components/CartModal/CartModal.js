@@ -15,7 +15,7 @@ const CartModal = () => {
     setShowCartModal,
     cartItems,
     setCartItems,
-    user,
+    user, 
     setComponentLevelLoader,
     componentLevelLoader,
   } = useContext(GlobalContext);
@@ -23,9 +23,9 @@ const CartModal = () => {
   const router = useRouter();
 
   async function extractAllCartItems() {
-    const res = await getAllCartItems(user?._id);
+    const res = await getAllCartItems(user._id);
 
-    if (res.success) {
+    if(res.success) {
       const updatedData =
         res.data && res.data.length
           ? res.data.map((item) => ({

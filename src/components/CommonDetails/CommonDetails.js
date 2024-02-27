@@ -7,7 +7,7 @@ import ComponentLevelLoader from "../Loader/ComponentLevel";
 
 
 const CommonDetails = ({ item }) => {
-  const { user, componentLevelLoader, setComponentLevelLoader,  } = useContext(GlobalContext);
+  const { user, componentLevelLoader, setComponentLevelLoader, setShowCartModal  } = useContext(GlobalContext);
 
   const handleAddToCart = async(getItem)=>{
     setComponentLevelLoader({ loading: true, id: "" });
@@ -18,14 +18,14 @@ const CommonDetails = ({ item }) => {
         position: "top-right",
       });
       setComponentLevelLoader({ loading: false, id: "" });
-      // setShowCartModal(true);
+      setShowCartModal(true);
     }
     else {
       toast.error(res.message, {
         position: "top-right",
       });
       setComponentLevelLoader({ loading: false, id: "" });
-      // setShowCartModal(true);
+      setShowCartModal(true);
     }
   }
 

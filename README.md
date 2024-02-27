@@ -1,2 +1,6 @@
+E-Commerce app
 
-mongodb+srv://azizul53468:<password>@cluster0.c1vw2zf.mongodb.net/
+
+Demo admin account:
+email: alif@gmail.com
+pass: 123456

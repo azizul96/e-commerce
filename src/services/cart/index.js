@@ -16,15 +16,15 @@ export const addToCart = async (formData) => {
     const data = await res.json();
 
     return data;
-  } 
-  catch (e) {
-    console.log(e);
+  }
+  catch (error) {
+    console.log(error);
   }
 };
 
 export const getAllCartItems = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/cart/all-cart-items?id=${id}`, {
+    const res = await fetch(`https://e-shop-azizul.vercel.app/api/cart/all-cart-items?id=${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${Cookies.get("token")}`,
@@ -34,9 +34,9 @@ export const getAllCartItems = async (id) => {
     const data = await res.json();
 
     return data;
-  } 
-  catch (e) {
-    console.log(e);
+  }
+  catch (error) {
+    console.log(error);
   }
 };
 
@@ -52,8 +52,8 @@ export const deleteFromCart = async (id) => {
     const data = await res.json();
 
     return data;
-  } 
-  catch (e) {
-    console.log(e);
+  }
+  catch (error) {
+    console.log(error);
   }
 };

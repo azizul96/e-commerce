@@ -66,7 +66,7 @@ const Navbar = () => {
                 <div onClick={()=>router.push('/')} className="flex items-center cursor-pointer ">
                     <span className="self-center text-2xl font-semibold whitespace-nowrap"><span className="text-[#C70039]">E-</span>Shop</span>
                 </div>
-                <div className="flex md:order-2 gap-2">
+                <div className="flex md:order-2 gap-2 ">
                     {
                         !isAdminView && isAuthUser ? (
                             <Fragment>

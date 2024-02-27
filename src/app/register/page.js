@@ -7,9 +7,11 @@ import { registerNewUser } from "@/services/register";
 import { registrationFormControls } from "@/utils";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import ComponentLevelLoader from "@/components/Loader/ComponentLevel";
 
 
-const isRegistered = false;
+
 const initialFormData = {
   name: '',
   email: '',
@@ -19,6 +21,7 @@ const initialFormData = {
 
 const Register = () => {
   const [formData, setFormData] = useState(initialFormData)
+  const [isRegistered, setIsRegistered] = useState(false);
   const { pageLevelLoader, setPageLevelLoader , isAuthUser } = useContext(GlobalContext);
 
   const router = useRouter();
@@ -32,9 +35,25 @@ const Register = () => {
   }
 
   const handleRegister = async() =>{
-    const data = await registerNewUser(formData)
-    console.log(data);
+    setPageLevelLoader(true);
+    const data = await registerNewUser(formData);
+
+    if (data.success) {
+      toast.success(data.message, {
+        position: "top-right",
+      });
+      setIsRegistered(true);
+      setPageLevelLoader(false);
+      setFormData(initialFormData);
+    } else {
+      toast.error(data.message, {
+        position: "top-right",
+      });
+      setPageLevelLoader(false);
+      setFormData(initialFormData);
+    }
   }
+
   useEffect(()=>{
     if(isAuthUser){
       router.push('/')
@@ -53,8 +72,10 @@ const Register = () => {
                 }
               </p>
               {
-                isRegistered ? 
-                <button className="inline-flex w-full items-center justify-center bg-[#C70039] px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide">
+                isRegistered ?
+                <button className="inline-flex w-full items-center justify-center bg-[#C70039] px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide"
+                onClick={()=>router.push('/login')}
+                >
                   Login
                 </button> 
                 : <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8 ">
@@ -92,7 +113,15 @@ const Register = () => {
                   disabled={!isFormValid()}
                   onClick={handleRegister}
                   >
-                    Register
+                    {pageLevelLoader ? (
+                      <ComponentLevelLoader
+                        text={"Registering"}
+                        color={"#ffffff"}
+                        loading={pageLevelLoader}
+                      />
+                    ) : (
+                      "Register"
+                    )}
                   </button>
                 </div>
               }
