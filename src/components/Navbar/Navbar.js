@@ -1,15 +1,14 @@
 "use client"
 import { GlobalContext } from "@/context";
 import { adminNavOptions, navOptions } from "@/utils";
-import { Fragment, useContext, useEffect } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import CommonModal from "../CommonModal/CommonModal";
 import Cookies from "js-cookie";
 import { usePathname, useRouter } from "next/navigation";
 import CartModal from "../CartModal/CartModal";
-
-
-
-
+import { FaCartPlus } from "react-icons/fa6";
+import { MdAccountBalanceWallet } from "react-icons/md";
+import { FiLogIn, FiLogOut } from "react-icons/fi";
 
 
 const NavItem = ({isModalView = false, isAdminView, router}) => {
@@ -35,10 +34,11 @@ const NavItem = ({isModalView = false, isAdminView, router}) => {
 }
 const Navbar = () => {
 
-    const {user, isAuthUser, setIsAuthUser, setUser, currentUpdatedProduct, setCurrentUpdatedProduct, showNavModal, setShowNavModal, showCartModal, setShowCartModal} = useContext(GlobalContext);
+    const {user, isAuthUser, setIsAuthUser, setUser, currentUpdatedProduct, setCurrentUpdatedProduct, showNavModal, setShowNavModal, showCartModal, setShowCartModal, cartItems} = useContext(GlobalContext);
 
     const pathName = usePathname()
     const router = useRouter();
+
 
     console.log( user , isAuthUser );
 
@@ -64,16 +64,20 @@ const Navbar = () => {
         <nav className="bg-white w-full z-20 top-0 left-0 border-b border-gray-200">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <div onClick={()=>router.push('/')} className="flex items-center cursor-pointer ">
-                    <span className="self-center text-2xl font-semibold whitespace-nowrap"><span className="text-[#C70039]">E-</span>Shop</span>
+                    <span className="self-center text-2xl font-bold whitespace-nowrap"><span className="text-[#C70039]">E-</span>Shop</span>
                 </div>
-                <div className="flex md:order-2 gap-2 ">
+                <div className="flex md:order-2 gap-2 items-center ">
                     {
                         !isAdminView && isAuthUser ? (
                             <Fragment>
-                                <button className={"mt-1.5 inline-block bg-[#C70039] px-5 py-2 text-xs font-medium uppercase tracking-wide text-white rounded-sm"}>Account</button>
-                                <button className={"mt-1.5 inline-block bg-[#C70039] px-5 py-2 text-xs font-medium uppercase tracking-wide text-white rounded-sm"}
+                                <button 
+                                onClick={()=>router.push('/account')}
+                                className={"mt-1.5 px-2 py-1 text-sm font-semibold  tracking-wide text-[#C70039] flex gap-1 items-center"}
+                                ><MdAccountBalanceWallet/>Account</button>
+
+                                <button className={"mt-1.5  px-2 py-1 text-sm font-semibold uppercase tracking-wide text-[#C70039] flex gap-1 items-center "}
                                 onClick={()=> setShowCartModal(true)}
-                                >Cart</button>
+                                ><FaCartPlus/>{cartItems.length}</button>
                             </Fragment>
                         ) : null
                     }
@@ -91,16 +95,16 @@ const Navbar = () => {
                     }
                     {
                         isAuthUser ? <button 
-                        className={"mt-1.5 inline-block bg-[#C70039] px-5 py-2 text-xs font-medium uppercase tracking-wide text-white rounded-sm"} 
+                        className={"mt-1.5 bg-[#C70039] px-4 py-2 text-xs uppercase tracking-wide text-white rounded-sm flex gap-1 items-center font-semibold"} 
                         onClick={handleLogout}
                         >
-                            Logout
+                            <FiLogOut/>Logout
                         </button> 
                         : 
-                        <button className={"mt-1.5 inline-block bg-[#C70039] px-5 py-2 text-xs font-medium uppercase tracking-wide text-white rounded-sm"}
+                        <button className={"mt-1.5 bg-[#C70039] px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white rounded-sm flex gap-1 items-center"}
                         onClick={()=> router.push('/login')}
                         >
-                            Login
+                            <FiLogIn />Login
                         </button>
                     }
                     <button

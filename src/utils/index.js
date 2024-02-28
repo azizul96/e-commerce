@@ -6,7 +6,7 @@ export const navOptions = [
   },
   {
     id: "listing",
-    label: "All Products",
+    label: "Products",
     path: "/product/listing/all-product",
   },
   {

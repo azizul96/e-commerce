@@ -25,9 +25,9 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-6">
       <section className="">
-        <div className="grid max-w-screen-xl px-4 py-8 mx-suto  lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+        <div className="grid max-w-screen-xl px-4 py-8 mx-auto  lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
           <div className="mr-auto place-self-center lg:col-span-7">
             <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">
               Best Fashion Collection
@@ -39,7 +39,7 @@ export default function Home() {
 
             <button
               type="button"
-              onClick={() => router.push("/product/listing/all-products")}
+              onClick={() => router.push("/product/listing/all-product")}
               className="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
             >
               Explore Shop Collection
@@ -62,7 +62,7 @@ export default function Home() {
                   </h2>
                 </div>
                 <button
-                  onClick={() => router.push("/product/listing/all-products")}
+                  onClick={() => router.push("/product/listing/all-product")}
                   className="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
                 >
                   Shop ALL
