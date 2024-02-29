@@ -1,8 +1,25 @@
 "use client"
 import Cookies from "js-cookie";
+import { usePathname, useRouter } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
 
+export const initialCheckoutFormData = {
+    shippingAddress: {},
+    paymentMethod: "",
+    totalPrice: 0,
+    isPaid: false,
+    paidAt: new Date(),
+    isProcessing: true,
+  };
 export const GlobalContext = createContext(null)
+
+const protectedRoutes = ["cart", "checkout", "account", "orders", "admin-view"];
+
+const protectedAdminRoutes = [
+  "/admin-view",
+  "/admin-view/add-product",
+  "/admin-view/all-products",
+];
 
 export default function GlobalState({children}){
 
@@ -22,6 +39,15 @@ export default function GlobalState({children}){
         postalCode: "",
         address: "",
     });
+    const [allOrdersForUser, setAllOrdersForUser] = useState([]);
+    const [orderDetails, setOrderDetails] = useState(null);
+    const [allOrdersForAllUsers, setAllOrdersForAllUsers] = useState([]);
+    const [checkoutFormData, setCheckoutFormData] = useState( initialCheckoutFormData );
+
+
+    const router = useRouter();
+    const pathName = usePathname();
+
 
     useEffect(()=>{
         console.log(Cookies.get('token'));
@@ -50,6 +76,10 @@ export default function GlobalState({children}){
         cartItems, setCartItems,
         addresses, setAddresses,
         addressFormData, setAddressFormData,
+        allOrdersForUser, setAllOrdersForUser,
+        orderDetails, setOrderDetails,
+        allOrdersForAllUsers, setAllOrdersForAllUsers,
+        checkoutFormData, setCheckoutFormData,
 
     }}
     >

@@ -3,7 +3,7 @@
 import InputComponent from "@/components/FormElements/InputComponent/InputComponent";
 import ComponentLevelLoader from "@/components/Loader/ComponentLevel";
 import { GlobalContext } from "@/context";
-import { addNewAddress, fetchAllAddresses, updateAddress } from "@/services/address";
+import { addNewAddress, deleteAddress, fetchAllAddresses, updateAddress } from "@/services/address";
 import { addNewAddressFormControls } from "@/utils";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
