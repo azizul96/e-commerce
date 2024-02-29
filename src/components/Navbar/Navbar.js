@@ -75,9 +75,10 @@ const Navbar = () => {
                                 className={"mt-1.5 px-2 py-1 text-sm font-semibold  tracking-wide text-[#C70039] flex gap-1 items-center"}
                                 ><MdAccountBalanceWallet/>Account</button>
 
-                                <button className={"mt-1.5  px-2 py-1 text-sm font-semibold uppercase tracking-wide text-[#C70039] flex gap-1 items-center "}
+                                <button className={"mt-1.5  px-2  text-lg font-semibold uppercase tracking-wide text-[#C70039] relative"}
                                 onClick={()=> setShowCartModal(true)}
-                                ><FaCartPlus/>{cartItems.length}</button>
+                                ><FaCartPlus/><span className="absolute transform -translate-x-1/2 -translate-y-1/2 -top-1 -right-2  bg-orange-600 text-xs rounded-full text-white px-1 font-medium">{cartItems.length}</span></button>
+                                
                             </Fragment>
                         ) : null
                     }

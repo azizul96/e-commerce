@@ -1,11 +1,17 @@
 "use client"
 
+import InputComponent from "@/components/FormElements/InputComponent/InputComponent";
 import ComponentLevelLoader from "@/components/Loader/ComponentLevel";
 import { GlobalContext } from "@/context";
-import { fetchAllAddresses } from "@/services/address";
+import { addNewAddress, fetchAllAddresses, updateAddress } from "@/services/address";
+import { addNewAddressFormControls } from "@/utils";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { PulseLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import { FiEdit } from "react-icons/fi";
+import { MdDelete } from "react-icons/md";
+
 
 const Account = () => {
   const {
@@ -50,7 +56,7 @@ const Account = () => {
     if (res.success) {
       setComponentLevelLoader({ loading: false, id: "" });
       toast.success(res.message, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: "top-right",
       });
       setAddressFormData({
         fullName: "",
@@ -64,7 +70,7 @@ const Account = () => {
     } else {
       setComponentLevelLoader({ loading: false, id: "" });
       toast.error(res.message, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: "top-right",
       });
       setAddressFormData({
         fullName: "",
@@ -76,6 +82,39 @@ const Account = () => {
     }
   }
 
+  function handleUpdateAddress(getCurrentAddress) {
+    setShowAddressForm(true);
+    setAddressFormData({
+      fullName: getCurrentAddress.fullName,
+      city: getCurrentAddress.city,
+      country: getCurrentAddress.country,
+      postalCode: getCurrentAddress.postalCode,
+      address: getCurrentAddress.address,
+    });
+    setCurrentEditedAddressId(getCurrentAddress._id);
+  }
+
+  async function handleDelete(getCurrentAddressID) {
+    setComponentLevelLoader({ loading: true, id: getCurrentAddressID });
+
+    const res = await deleteAddress(getCurrentAddressID);
+
+    if (res.success) {
+      setComponentLevelLoader({ loading: false, id: "" });
+
+      toast.success(res.message, {
+        position: "top-right",
+      });
+      extractAllAddresses();
+    } else {
+      setComponentLevelLoader({ loading: false, id: "" });
+
+      toast.error(res.message, {
+        position: "top-right",
+      });
+    }
+  }
+
 
   useEffect(() => {
     if (user !== null) extractAllAddresses();
@@ -83,7 +122,7 @@ const Account = () => {
 
   return (
     <section className="">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl mt-20">
         <div className="bg-white shadow">
           <div className="p-6 sm:p-12">
             <div className="flex flex-col space-y-4 md:space-y-0 md:space-x-6 md:flex-row">
@@ -96,7 +135,7 @@ const Account = () => {
               <p>{user?.email}</p>
               <p>{user?.role}</p>
             </div>
-            <button onClick={()=>router.push('/orders')} className="mt-5  inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide">
+            <button onClick={()=>router.push('/orders')} className="mt-5  inline-block bg-orange-600 text-white px-5 py-3 text-xs font-medium uppercase tracking-wide rounded-sm">
               View Your Orders
             </button>
             <div className="mt-6">
@@ -120,14 +159,14 @@ const Account = () => {
                         <p>PostalCode : {item.postalCode}</p>
                         <button
                           onClick={() => handleUpdateAddress(item)}
-                          className="mt-5 mr-5 inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+                          className="mt-5 mr-5 inline-flex bg-green-600 text-white px-4 py-2 text-xs font-medium uppercase tracking-wide items-center gap-2 rounded-md shadow-xl  shadow-green-300"
                         >
-                          Update
+                          Update<FiEdit/>
                         </button>
                         <button
                           onClick={() => handleDelete(item._id)}
-                          className="mt-5  inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
-                        >
+                          className="mt-5 bg-red-600 text-white px-4 py-2 text-xs font-medium uppercase tracking-wide inline-flex items-center gap-2 rounded-md shadow-xl  shadow-red-300"
+                        > 
                           {componentLevelLoader &&
                           componentLevelLoader.loading &&
                           componentLevelLoader.id === item._id ? (
@@ -140,8 +179,8 @@ const Account = () => {
                               }
                             />
                           ) : (
-                            "Delete"
-                          )}
+                            "Delete " 
+                          )} <MdDelete/>
                         </button>
                       </div>
                     ))
@@ -154,7 +193,7 @@ const Account = () => {
             <div className="mt-4">
               <button
                 onClick={() => setShowAddressForm(!showAddressForm)}
-                className="mt-5  inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+                className="mt-5  inline-block bg-orange-600 text-white px-5 py-3 text-xs font-medium uppercase tracking-wide rounded-sm"
               >
                 {showAddressForm ? "Hide Address Form" : "Add New Address"}
               </button>
@@ -179,7 +218,7 @@ const Account = () => {
                 </div>
                 <button
                   onClick={handleAddOrUpdateAddress}
-                  className="mt-5  inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+                  className="mt-5  inline-block bg-orange-600 text-white px-5 py-3 text-xs font-medium uppercase tracking-wide rounded-sm"
                 >
                   {componentLevelLoader && componentLevelLoader.loading ? (
                     <ComponentLevelLoader

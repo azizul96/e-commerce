@@ -4,6 +4,11 @@ import { GlobalContext } from "@/context";
 import { getAllAdminProducts } from "@/services/product";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import { FaArrowRightLong } from "react-icons/fa6";
+import { MdShop2 } from "react-icons/md";
+import { HiShoppingBag } from "react-icons/hi2";
+
+
 
 export default function Home() {
 
@@ -33,21 +38,20 @@ export default function Home() {
               Best Fashion Collection
             </h1>
             <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl">
-              Quisquemos sodales suscipit tortor ditaemcos condimentum de cosmo
-              lacus meleifend menean diverra loremous.
+            E-Shop is celebrated for its iconic monogrammed clothes and high-quality leather goods. The brand's fashion collections also showcase innovative designs and luxurious materials.
             </p>
 
             <button
               type="button"
               onClick={() => router.push("/product/listing/all-product")}
-              className="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+              className="mt-1.5  bg-orange-600 px-5 py-3 text-xs font-medium uppercase tracking-wide text-white flex items-center gap-2 shadow-2xl shadow-black"
             >
-              Explore Shop Collection
+              Explore Shop <FaArrowRightLong/>
             </button>
           </div>
           <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
             <img
-              src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+              src="https://i.ibb.co/hCssBf2/IMM-done-30.jpg"
               alt="Explore Shop Collection"
             />
           </div>
@@ -55,7 +59,7 @@ export default function Home() {
         <div className="max-w-screen-xl px-4 py-8 mx-auto sm:py-12 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:items-stretch">
             <div className="grid p-6 bg-gray-100 rounded place-content-center sm:p-8">
-              <div className="max-w-md mx-auto text-center lg:text-left">
+              <div className="max-w-md mx-auto  lg:text-left">
                 <div>
                   <h2 className="text-xl font-bold text-gray-900 sm:text-3xl">
                     Summer Sale Collection
@@ -63,9 +67,9 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => router.push("/product/listing/all-product")}
-                  className="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+                  className="mt-1.5 bg-orange-600 px-4 py-3 text-xs font-medium uppercase tracking-wide text-white flex items-center gap-2"
                 >
-                  Shop ALL
+                  Shop ALL<MdShop2/>
                 </button>
               </div>
             </div>
@@ -123,9 +127,9 @@ export default function Home() {
                   <h3 className="text-xl font-medium text-white">KIDS</h3>
                   <button
                     onClick={() => router.push("/product/listing/kids")}
-                    className="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+                    className="mt-1.5 bg-orange-600 px-4 py-3 text-xs font-medium uppercase tracking-wide text-white flex items-center gap-1"
                   >
-                    Shop Now
+                    Shop Now<HiShoppingBag/>
                   </button>
                 </div>
               </div>
@@ -140,9 +144,9 @@ export default function Home() {
                   <h3 className="text-xl font-medium text-white">WOMEN</h3>
                   <button
                     onClick={() => router.push("/product/listing/women")}
-                    className="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+                    className="mt-1.5  bg-orange-600 px-4 py-3 text-xs font-medium uppercase tracking-wide text-white flex items-center gap-1"
                   >
-                    Shop Now
+                    Shop Now<HiShoppingBag/>
                   </button>
                 </div>
               </div>
@@ -157,9 +161,9 @@ export default function Home() {
                   <h3 className="text-xl font-medium text-white">MEN</h3>
                   <button
                     onClick={() => router.push("/product/listing/men")}
-                    className="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+                    className="mt-1.5 bg-orange-600 px-4 py-3 text-xs font-medium uppercase tracking-wide text-white flex items-center gap-1"
                   >
-                    Shop Now
+                    Shop Now<HiShoppingBag/>
                   </button>
                 </div>
               </div>
