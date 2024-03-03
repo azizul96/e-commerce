@@ -6,7 +6,7 @@ import { deleteAProduct } from "@/services/product";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
 import { toast } from "react-toastify";
-
+import { GiShoppingCart } from "react-icons/gi";
 
 
 
@@ -86,7 +86,7 @@ const ProductButton = ({item}) => {
     <>
       <button
       onClick={() => handleAddToCart(item)}
-      className="mt-1.5 flex w-full justify-center bg-[#ba7d38] px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+      className="mt-1.5 flex w-full justify-center bg-[#ba7d38] px-5 py-3 text-xs font-medium uppercase tracking-wide text-white gap-2 items-center"
       >
         {componentLevelLoader &&
         componentLevelLoader.loading &&
@@ -97,8 +97,8 @@ const ProductButton = ({item}) => {
             loading={componentLevelLoader && componentLevelLoader.loading}
           />
         ) : (
-          "Add To Cart"
-        )}
+          "Add To Cart" 
+        )} <GiShoppingCart className="text-lg"/>
       </button>
     </>
   )
