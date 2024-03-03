@@ -4,6 +4,7 @@ import GlobalState from "@/context";
 import Navbar from "@/components/Navbar/Navbar";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from "@/components/Footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,8 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <GlobalState>
           <Navbar/>
-          <main className="flex min-h-screen flex-col ">{children}</main>
+            <main className="flex min-h-screen flex-col ">{children}</main>
+          <Footer/>
         </GlobalState>
         <ToastContainer 
           position="top-right"
