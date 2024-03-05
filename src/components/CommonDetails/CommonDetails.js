@@ -4,6 +4,7 @@ import { addToCart } from "@/services/cart";
 import { useContext } from "react";
 import { toast } from "react-toastify";
 import ComponentLevelLoader from "../Loader/ComponentLevel";
+import { GiShoppingCart } from "react-icons/gi";
 
 
 const CommonDetails = ({ item }) => {
@@ -93,7 +94,7 @@ const CommonDetails = ({ item }) => {
               <button
                 type="button"
                 onClick={() => handleAddToCart(item)}
-                className="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium tracking-wide uppercase text-white rounded-sm"
+                className="mt-1.5 bg-[#ba7d38] px-5 py-3 text-xs font-medium tracking-wide uppercase text-white rounded-sm flex gap-2 items-center"
               >
                 {componentLevelLoader && componentLevelLoader.loading ? (
                   <ComponentLevelLoader
@@ -105,7 +106,7 @@ const CommonDetails = ({ item }) => {
                   />
                 ) : (
                   "Add to Cart"
-                )}
+                )} <GiShoppingCart className="text-lg"/>
               </button>
             </div>
             <ul className="mt-8 space-y-2">
