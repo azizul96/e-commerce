@@ -34,6 +34,7 @@ body {
 
 body::-webkit-scrollbar {
   width: 5px;
+  background-color: #ea580c;
 }
  
 body::-webkit-scrollbar-track {

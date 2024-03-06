@@ -11,11 +11,15 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "E-Shop",
   description: "e-commerce application",
+  icons: {
+    icon: "/e-shop.png",
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      
       <body className={inter.className}>
         <GlobalState>
           <Navbar/>
