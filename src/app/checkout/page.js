@@ -1,4 +1,4 @@
-"use client"
+
 
 import { GlobalContext } from "@/context";
 import { fetchAllAddresses } from "@/services/address";
