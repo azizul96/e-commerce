@@ -5,11 +5,16 @@ import { fetchAllAddresses } from "@/services/address";
 import { createNewOrder } from "@/services/order";
 import { callStripeSession } from "@/services/stripe";
 import { loadStripe } from "@stripe/stripe-js";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
+
+let useSearchParams;
+if (typeof window !== 'undefined') {
+  useSearchParams = require('next/navigation').useSearchParams;
+}
 
 const Checkout = () => {
   const {
@@ -26,7 +31,8 @@ const Checkout = () => {
   const [orderSuccess, setOrderSuccess] = useState(false);
 
   const router = useRouter();
-  const params = useSearchParams();
+  const params = useSearchParams ? useSearchParams() : null;
+
 
   
   const publishableKey =
